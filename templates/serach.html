@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="wrap">
+	<div class="so_list bookcase">
+		<h2> 与“{{ serachfields }}”相关的小说 -  <font size="2px">(搜索结果共{{ article.count }}条)</font></h2>
+		<div class="type_show">
+        {% for item in article %}
+		    <div class="bookbox">
+            <div class="p10">
+                <div class="bookimg">
+                        <a href="/details/{{ item.id }}/"><img src="{{ item.coverimg }}"></a></div><div class="bookinfo"><h4 class="bookname"><a href="/details/{{ item.id }}/">{{ item.storyname }}</a></h4><div class="cat">分类：{{ item.type.name }}</div><div class="author">作者：{{ item.author }}</div><div class="update"><span>最新章节：</span>
+                {% for i in item.sectioninfo_set.all %}
+                    {% if forloop.last %}
+                        <a href="/contents/{{ i.id }}/?p={{ item.sectioninfo_set.all.count }}">第{{ item.sectioninfo_set.all.count }}章结局</a>
+                    {% endif %}
+                {% endfor %}
+            </div><p>{{ item.intro }}</p></div></div></div>
+
+                {% endfor %}
+        </div>
+	</div>
+</div>
+{% endblock %}

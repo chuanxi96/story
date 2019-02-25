@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrap">
+	<div class="hot bd">
+		<div class="ll">
+
+    {% for item in new_article_info %}
+    <div class="item">
+        <div class="p10">
+            <div class="image">
+                <a href="/details/{{ item.id }}/" target="_blank">
+                    <img src="{{ item.coverimg }}" alt="{{ item.storyname }}" width="120" height="150" border="0" /></a>
+            </div>
+            <dl>
+                <dt><span>{{ item.author }}</span><a href="/details/{{ item.id }}/" target="_blank">{{ item.storyname }}</a>
+                </dt><dd>{{ item.intro }}</dd></dl></div></div>
+    {% endfor %}
+        </div>
+
+	<div class="up">
+		<div class="l bd">
+			<h2>好看的{{ typename }}最近更新列表</h2>
+
+			<ul>
+                {% for item in article_info %}
+                <li>
+                    <span class="s1">[{{ item.type.name }}]</span>
+                    <span class="s2"><a href="/details/{{ item.id }}/">{{ item.storyname }}</a></span>
+
+                    {% for i in item.sectioninfo_set.all %}
+                        {% if forloop.last %}
+                        <span class="s3"><a href="/contents/{{ i.id }}/?p={{ forloop.counter }}">第{{ forloop.counter }}章：{{ i.title }}</a></span>
+                        {% endif %}
+                    {% endfor %}
+
+                    <span class="s4">{{ item.author }}</span><span class="s5">{{ item.updatetime|date:"m-d" }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+		<div class="r bd">
+			<h2>小说相关推荐</h2>
+			<ul>
+                {% for item in article_info|slice:'::-1' %}
+                    <li><span class="s1">[{{ item.type.name }}]</span><span class="s2"><a href="/details/{{ item.id }}">{{ item.storyname }}</a></span><span class="s5">{{ item.author }}</span></li>
+		        {% endfor %}
+            </ul>
+        </div>
+	</div>
+</div>
+
+</div>
+
+{% endblock %}

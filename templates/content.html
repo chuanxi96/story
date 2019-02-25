@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="book reader">
+	<div class="path">
+        <div class="p"><a href="/">全本小说网</a> &gt;
+        <a href="/details/{{ section.article.id }}/">{{ section.article.storyname }}</a> &gt; 第{{ p }}章{{ section.title }}
+        <span class="oninfo"><script>textselect();</script></span>
+    </div>
+    </div>
+	<div class="content">
+		<h1>第{{ p }}章 {{ section.title }}</h1>
+
+		<div id="content" class="showtxt">
+            {{ section.contnets|linebreaksbr }}
+        </div>
+ </div>
+
+        <div class="page_chapter">
+			<ul>
+				<li><a href="/contents/{{ section.id|add:-1 }}/?p={{ p|add:-1 }}">上一章</a></li>
+				<li><a href="/details/{{ section.article.id }}/">返回目录</a></li>
+				<li><a href="/contents/{{ section.id|add:1 }}/?p={{ p|add:1 }}">下一章</a></li>
+			</ul>
+		</div>
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="wrap">
+	<div class="hot">
+		<div class="l bd">
+
+    {% for item in articleinfo %}
+    <div class="item">
+        <div class="p10">
+            <div class="image">
+                <a href="/details/{{ item.id }}" target="_blank">
+                    <img src="{{ item.coverimg }}" alt="{{ item.storyname }}"></a>
+            </div>
+            <dl><dt><span>{{ item.author }}</span><a href="/details/{{ item.id }}" target="_blank">{{ item.storyname }}</a></dt>
+                <dd>{{ item.intro }}</dd>
+            </dl></div></div>
+     {% endfor %}
+
+   </div>
+
+		<div class="r bd">
+			<h2>强力推荐</h2>
+			<ul class="lis">
+                {% for item in is_top_list %}
+                <li><span class="s1">[{{ item.type.name }}]</span><span class="s2"><a href="/details/{{ item.id }}/">{{ item.storyname }}</a></span><span class="s5">{{ item.author }}</span></li>
+                {% endfor %}
+            </ul>
+		</div>
+	</div>
+
+
+	<div class="type bd">
+{% for type in type_info %}
+		<div class="block">
+			<h2>{{ type.name }}</h2>
+			<div class="p10">
+
+                {% for i in type.articleinfo_set.all|slice:':1' %}
+                    {% if i.type_id == type.id %}
+                <div class="top">
+                <div class="image">
+                <a href="/details/{{ i.id }}/" target="_blank"><img src="{{ i.coverimg }}" alt="三界独尊"></a>
+            </div>
+            <dl><dt>
+                <a href="/details/{{ i.id }}/" target="_blank">{{ i.storyname }}</a></dt><dd>{{ i.intro }}</dd></dl>
+            </div>
+                    {% endif %}
+                {% endfor %}
+
+        <ul>
+            {% for i in type.articleinfo_set.all|slice:':5' %}
+                {% if i.type_id == type.id %}
+            <li><a href="/details/{{ i.id }}" target="_blank" title="雄霸神荒">{{ i.storyname }}</a>/{{ i.author }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+    </div>
+		</div>
+	{% endfor %}
+    </div>
+
+
+
+
+	<div class="up">
+
+
+        <div class="l bd">
+			<h2> 最近更新小说列表</h2>
+			<ul>
+
+                {% for item in new_item %}
+                <li><span class="s1">[{{ item.type.name }}]</span>
+                    {% for i in item.sectioninfo_set.all %}
+                        {% if forloop.last %}
+                    <span class="s2"><a href="/details/{{ item.id }}/">{{ item.storyname }}</a></span><span class="s3"><a href="/contents/{{ i.id }}/?p={{ forloop.counter }}">最新章节《{{ i.title }}》已经开始连载了，请各位移驾看上一看，对眼了请收藏。</a></span><span class="s4">{{ item.author }}</span><span class="s5">{{ item.updatetime|date:"m-d" }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </li>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+
+		<div class="r bd">
+			<h2>最新入库小说</h2>
+			<ul>
+                {% for item in new_item %}
+                <li><span class="s1">[{{ item.type.name }}]</span><span class="s2"><a href="/details/{{ item.id }}/">{{ item.storyname }}</a></span><span class="s5">{{ item.updatetime|date:"m-d" }}</span></li>
+		        {% endfor %}
+            </ul>
+        </div>
+
+	</div>
+
+
+</div>
+{% endblock %}

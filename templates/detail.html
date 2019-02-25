@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="book">
+	<div class="path">
+        <div class="p">
+            <a href="/">全本小说网</a> &gt;
+            <a href="/details/{{ article.id }}/">{{ article.storyname }}</a>
+        </div>
+    </div>
+
+    <div class="info">
+		<div class="cover"><img src="{{ article.coverimg }}" alt="{{ article.storyname }}"></div>
+		<h2>{{ article.storyname }}最新章节</h2>
+		<div class="small"><span>作者：{{ article.author }}</span><span>分类：{{ article.type.name }}</span><span class="last">更新时间：{{ article.updatetime }}</span>
+        {% for item in article.sectioninfo_set.all %}
+            {% if forloop.last %}
+            <span class="last">最新章节：<a href="/contents/{{ item.id }}/?p={{ count }}">第{{ count }}章 {{ new_section }}</a></span></div>
+            {% endif %}
+        {% endfor %}
+
+        <div class="intro"><span>简介：{{ article.intro }}</span>
+            <span class="noshow"></span>
+            <span class="showall">展开&gt;&gt;</span>
+	</div>
+</div>
+<script>list2();</script>
+<div class="listmain">
+	<dl>
+
+
+		<dt>《{{ article.storyname }}》正文卷</dt>
+
+        {% for item in article.sectioninfo_set.all %}
+		<dd><a href ="/contents/{{ item.id }}/?p={{ forloop.counter }}">第{{ forloop.counter }}章 {{ item.title }}</a></dd>
+		{% endfor %}
+	</dl>
+</div>
+
+
+
+{% endblock %}
